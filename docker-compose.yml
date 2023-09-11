@@ -1,0 +1,29 @@
+version: '3.8'
+
+services:
+  web:
+    build: 
+      context: .
+    container_name: project-django
+    ports:
+      - "8000:8000"
+    command: ['sh', './start.sh']
+    volumes:
+      - .:/app
+    env_file:
+      - .env
+    depends_on:
+      - postgres_db
+  
+  postgres_db:
+    image: postgres:15-alpine3.18
+    container_name: project-django-postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - world-db:/var/lib/postgresql/data
+    env_file:
+      - .env
+    
+volumes:
+  world-db:
